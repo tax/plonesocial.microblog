@@ -40,6 +40,34 @@
             updateMirror();
         });
 
+
+        $('body').on('submit', 'div.mentions form#items', function(e){
+            $('em#selected-users').removeClass('injecting injecting-content');
+            e.preventDefault();
+            var links = [];
+            //Create @ links for user
+            $("label.item.user.checked").map(function(i, el){
+                var user_id = $(el).find('input').val();
+                var username = $(el).find('strong').html();
+                var link = '<a href="#' + user_id +'">@' + username + '</a>';
+                links.push(link);
+            });
+            $('em#selected-users').html(links.join(', '));
+        });
+
+        $('body').on('submit', 'div.tags form#items', function(e){
+            $('em#selected-tags').removeClass('injecting injecting-content');
+            e.preventDefault();
+            var links = [];
+            //Create hashtag links for tags
+            $("label.item.tag.checked").map(function(i, el){
+                var tag = $(el).find('input').val();
+                var link = '<a href="#' + tag +'">#' + tag + '</a>';
+                links.push(link);
+            });
+            $('em#selected-tags').html(links.join(', '));
+        });
+
         $('form.update-social').submit(function(event){
             var textarea = $(this).find('textarea');
             var selected_tags = $(this).find('.selected-tags a');
